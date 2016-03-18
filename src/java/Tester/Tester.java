@@ -22,7 +22,7 @@ public class Tester {
 
     public static void main(String[] args) {
         m = new Mapper();
-        Persistence.generateSchema("CA2PU", null);
+        Persistence.generateSchema("CA2_FINALPU", null);
      //   addCityInfo();
      //   editCityInfo();
         addPerson();

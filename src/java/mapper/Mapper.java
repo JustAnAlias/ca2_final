@@ -36,7 +36,7 @@ public class Mapper {
     private EntityManager em;
 
     public Mapper() {
-        emf = Persistence.createEntityManagerFactory("CA2PU", null);
+        emf = Persistence.createEntityManagerFactory("CA2_FINALPU", null);
     }
 
     public EntityManager getEntityManager() {
