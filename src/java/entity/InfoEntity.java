@@ -27,7 +27,7 @@ public class InfoEntity implements Serializable  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String Email;
+    private String email;
     
 //    @OneToMany(mappedBy = "owner")
     @JoinTable
@@ -64,11 +64,11 @@ public class InfoEntity implements Serializable  {
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
-    public void setEmail(String Email) {
-        this.Email = Email;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Integer getId() {
@@ -81,7 +81,7 @@ public class InfoEntity implements Serializable  {
 
     @Override
     public String toString() {
-        return "InfoEntity{" + "id=" + id + ", Email=" + Email + ", phones=" + phones + ", address=" + address + '}';
+        return "InfoEntity{" + "id=" + id + ", Email=" + email + ", phones=" + phones + ", address=" + address + '}';
     }
     
     
