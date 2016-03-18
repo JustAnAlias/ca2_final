@@ -74,7 +74,12 @@ public class API {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void createPerson(String personJson) {
-        Person person = gson.fromJson(personJson, Person.class);
+        InfoEntity person = gson.fromJson(personJson, Person.class);
+        if(!person.getPhones().isEmpty()){
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        System.out.println("xxxxxxxxxxxxxxxx           " + person.getPhones().get(0) + "           xxxxxxxx");
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        }
         mp.addEntity(person);
 //        System.out.println(personJson);
 //            
