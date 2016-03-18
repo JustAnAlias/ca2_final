@@ -74,7 +74,8 @@ public class API {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void createPerson(String personJson) {
-        InfoEntity person = gson.fromJson(personJson, Person.class);
+        Person person = gson.fromJson(personJson, Person.class);
+        System.out.println("this is the jsonString: " + personJson);
         if(!person.getPhones().isEmpty()){
         System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
         System.out.println("xxxxxxxxxxxxxxxx           " + person.getPhones().get(0) + "           xxxxxxxx");
@@ -145,9 +146,10 @@ public class API {
     }
     
     @PUT
+    @Path("person/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public void editPerson(String personJson) {
-        InfoEntity person = gson.fromJson(personJson, Person.class);
+        Person person = gson.fromJson(personJson, Person.class);
         if(!person.getPhones().isEmpty()){
         System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
         System.out.println("xxxxxxxxxxxxxxxx           " + person.getPhones().get(0) + "           xxxxxxxx");
