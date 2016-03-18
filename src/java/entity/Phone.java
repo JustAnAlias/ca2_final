@@ -30,8 +30,8 @@ public class Phone implements Serializable {
     // One person(owner) can have many phone numbers
     @ManyToOne
     private InfoEntity owner;
-    @ManyToMany(mappedBy = "phones")
-    private List<InfoEntity> infoEntitys;
+//    @ManyToMany(mappedBy = "phones")
+//    private List<InfoEntity> infoEntitys;
 
     public Phone() {
     }

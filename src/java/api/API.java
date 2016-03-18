@@ -143,4 +143,16 @@ public class API {
 //        String json = mp.getCityInfo(Integer.parseInt(id)).toString();
         return Response.status(Response.Status.OK).entity(json).build();
     }
+    
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void editPerson(String personJson) {
+        InfoEntity person = gson.fromJson(personJson, Person.class);
+        if(!person.getPhones().isEmpty()){
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        System.out.println("xxxxxxxxxxxxxxxx           " + person.getPhones().get(0) + "           xxxxxxxx");
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        }
+        mp.editEntity(mp);
+    }
 }

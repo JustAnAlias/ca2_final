@@ -31,7 +31,7 @@ public class InfoEntity implements Serializable  {
     
 //    @OneToMany(mappedBy = "owner")
     @JoinTable
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     protected List<Phone> phones;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Address address;
