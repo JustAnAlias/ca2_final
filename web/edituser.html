@@ -49,11 +49,15 @@
 //<![CDATA[ 
  $(window).load(function(){ 
 //var json = $.getJSON('api/search/person/1');
-var json={  
- "firstName" : 20, 
- "lastName": "Jack", 
- "email": "Description" 
- }; 
+$.getJSON("api/search/person/1", function (data) {
+    $('#firstName').val(data.firstName);
+    $('#lastName').val(data.lastName);
+    });
+//var json={  
+// "firstName" : 20, 
+// "lastName": "Jack", 
+// "email": "Description" 
+// }; 
  for(key in json) 
  { 
  if(json.hasOwnProperty(key)) 
