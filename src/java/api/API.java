@@ -15,10 +15,12 @@ import entity.CityInfo;
 import entity.Hobby;
 import entity.InfoEntity;
 import entity.Person;
+
 import entity.Phone;
 import exceptions.CityNotFoundException;
 import exceptions.PersonNotFoundException;
 import exceptions.PhoneDoesNotBelongToPersonException;
+import exceptions.PhoneNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.Consumes;
@@ -42,20 +44,20 @@ import mapper.Mapper;
  */
 @Path("search")
 public class API {
+
     @Context
     private UriInfo context;
-     
+
     private Mapper mp;
     private Gson gson;
-    
+
     public API() {
         mp = new Mapper();
         gson = new GsonBuilder().setPrettyPrinting().create();
     }
 
     // Helping methods
-    
-    public static JsonObject ziptoJson(entity.CityInfo c){
+    public static JsonObject ziptoJson(entity.CityInfo c) {
         JsonObject jsonA = new JsonObject();
         if (c != null) {
             jsonA.addProperty("zip", c.getZip());
@@ -64,23 +66,22 @@ public class API {
         return jsonA;
     }
 
-    
-    
-    
     // Fuckin api below
-    
-    
     // Person
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void createPerson(String personJson) {
+//        JsonObject jsonIn = new JsonParser().parse(personJson).getAsJsonObject();
         Person person = gson.fromJson(personJson, Person.class);
         System.out.println("this is the jsonString: " + personJson);
-        if(!person.getPhones().isEmpty()){
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-        System.out.println("xxxxxxxxxxxxxxxx           " + person.getPhones().get(0) + "           xxxxxxxx");
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        if (!person.getPhones().isEmpty()) {
+            for (Phone p : person.getPhones()){
+                p.setOwner(person);
+            }
         }
+
+//        JsonObject jsonPhone = jsonIn.get("phones").getAsJsonObject();
+//        System.out.println("this is the phone string: " + jsonPhone);
         mp.addEntity(person);
 //        System.out.println(personJson);
 //            
@@ -100,18 +101,28 @@ public class API {
 //            newPerson.addPhone(phone);
 //             
 //        mp.addInfoEntity(newPerson);
-}
-    
+    }
+
     @GET
     @Path("person/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getPersonById(@PathParam("id") Integer id) throws PersonNotFoundException
+    public String getPersonById(@PathParam("id") Integer id) throws PersonNotFoundException, PhoneNotFoundException
     {
-        return gson.toJson(mp.getPerson(id));
+        return mp.getPersonById(id).toJson();
     }
     
     @GET
-    @Path("person/complete")
+    @Path("personbyphone/{number}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getPersonByPhone(@PathParam("number") String number) throws PersonNotFoundException, PhoneDoesNotBelongToPersonException {
+        System.out.println("the number parsed from the uri: " + number);
+        System.out.println("the number is of class: " + number.getClass().getCanonicalName());
+        Person p = mp.getPersonByPhone(number);
+        return gson.toJson(p);
+    }
+
+    @GET
+    @Path("person/all")
     @Produces(MediaType.APPLICATION_JSON)
 
     public String getAllPersons() {
@@ -129,31 +140,29 @@ public class API {
         return gson.toJson(jA);
 
     }
- 
-    
+
     @GET
     @Produces("application/json")
     @Path("zip/{id}")
     public Response getCity(
-            @PathParam("id") String id) 
-            throws CityNotFoundException{
+            @PathParam("id") String id)
+            throws CityNotFoundException {
 
-        
         CityInfo a = mp.getCityInfo(Integer.parseInt(id));
         String json = ziptoJson(a).toString();
 //        String json = mp.getCityInfo(Integer.parseInt(id)).toString();
         return Response.status(Response.Status.OK).entity(json).build();
     }
-    
+
     @PUT
     @Path("person/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public void editPerson(String personJson) {
         Person person = gson.fromJson(personJson, Person.class);
-        if(!person.getPhones().isEmpty()){
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-        System.out.println("xxxxxxxxxxxxxxxx           " + person.getPhones().get(0) + "           xxxxxxxx");
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        if (!person.getPhones().isEmpty()) {
+            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+            System.out.println("xxxxxxxxxxxxxxxx           " + person.getPhones().get(0) + "           xxxxxxxx");
+            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
         }
         mp.editEntity(mp);
     }

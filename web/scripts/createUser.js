@@ -30,21 +30,21 @@ var addPerson = function () {
         "firstName" : document.getElementById('firstName').value,
         "lastName" : document.getElementById('lastName').value,
         "email" : document.getElementById('email').value,
-        phone : {
+        "phones" : [{
             "number" : document.getElementById('phoneNumber').value,
             "description" : document.getElementById('phoneDescription').value
-        }
+        }]
         };
     
 
 
-    var person = {};
-    person.firstName = document.getElementById('firstName').value;
-    person.lastName = document.getElementById('lastName').value;
-    person.email = document.getElementById('email').value;
-    person.phone = {"number": document.getElementById('phoneNumber').value, "description": document.getElementById('phoneDescription').value};
-//  person.address = {street : document.getElementById('street'), additionalInfo : document.getElementById('additionalInfo')};
-    console.log(JSON.stringify(person));
+//    var person = {};
+//    person.firstName = document.getElementById('firstName').value;
+//    person.lastName = document.getElementById('lastName').value;
+//    person.email = document.getElementById('email').value;
+//    person.phone = {"number": document.getElementById('phoneNumber').value, "description": document.getElementById('phoneDescription').value};
+////  person.address = {street : document.getElementById('street'), additionalInfo : document.getElementById('additionalInfo')};
+//    console.log(JSON.stringify(person));
     
     $.ajax({
         type: "POST",

@@ -25,6 +25,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -316,23 +317,27 @@ public class Mapper {
         return person;
     }
 
-    public Person getPerson(int id) throws PersonNotFoundException {
+    public Person getPersonById(int id) throws PersonNotFoundException {
         em = getEntityManager();
-        InfoEntity ie = null;
+//        InfoEntity ie = null;
         Person person = null;
         try {
-            ie = em.find(InfoEntity.class, id);
-            if (ie == null) {
-                throw new PersonNotFoundException();
-            }
-            if (ie.getClass().equals(Person.class)) {
-                person = (Person) ie;
-                Query query = em.createQuery("SELECT p FROM Phone p WHERE p.owner = :owner");
-                query.setParameter("owner", person);
-                person.setPhones(query.getResultList());
-            } else {
-                throw new PersonNotFoundException();
-            }
+            
+            person = em.find(Person.class, id);
+            
+            
+//            ie = em.find(InfoEntity.class, id);
+//            if (ie == null) {
+//                throw new PersonNotFoundException();
+//            }
+//            if (ie.getClass().equals(Person.class)) {
+//                person = (Person) ie;
+//                Query query = em.createQuery("SELECT p FROM Phone p WHERE p.owner = :owner");
+//                query.setParameter("owner", person);
+//                person.setPhones(query.getResultList());
+//            } else {
+//                throw new PersonNotFoundException();
+//            }
         } finally {
             em.close();
         }
@@ -563,55 +568,59 @@ public class Mapper {
             em.close();
         }
     }
-    
-    public <T> void addEntity(T ie){
+
+    public <T> void addEntity(T ie) {
         System.out.println("persisting stuff of type: " + ie.getClass().getCanonicalName());
         em = emf.createEntityManager();
-        try{
-        em.getTransaction().begin();
-        em.persist(ie);
-        em.getTransaction().commit();
-        }
-        catch(Exception e){
+        try {
+            em.getTransaction().begin();
+            em.persist(ie);
+            em.getTransaction().commit();
+        } catch (Exception e) {
             // throw some exception
-        }
-        finally{
+        } finally {
             em.close();
+            System.out.println("persisted the entity");
         }
+
         
-        
-        System.out.println("persisted the entity");
     }
-    
-    public <T> void editEntity(T ie){
+
+    public <T> void editEntity(T ie) {
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
             em.merge(ie);
             em.getTransaction().commit();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             // throw some exception
-        }
-
-            finally {
+        } finally {
             em.close();
         }
     }
-    
-    public <T> void deleteEntity(T ie){
+
+    public <T> void deleteEntity(T ie) {
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
             em.remove(ie);
             em.getTransaction().commit();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             // throw some exception?
-        }
-        finally {
+        } finally {
             em.close();
         }
     }
-
+    
+    public InfoEntity getEntity(Integer id) {
+        em = emf.createEntityManager();
+        InfoEntity result = null;
+        try{
+            result = em.find(InfoEntity.class, id);
+        }
+        finally{
+            em.close();
+        }
+        return result;
+    }
 }

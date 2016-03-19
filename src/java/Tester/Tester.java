@@ -5,11 +5,21 @@
  */
 package Tester;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 import mapper.Mapper;
 import entity.Address;
 import entity.CityInfo;
 import entity.Person;
 import entity.Phone;
+import exceptions.PersonNotFoundException;
+import exceptions.PhoneDoesNotBelongToPersonException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Persistence;
 
 /**
@@ -26,7 +36,28 @@ public class Tester {
      //   addCityInfo();
      //   editCityInfo();
         addPerson();
+        Person p = findPersonByPhoneNumber();
+        
+        JsonObject jo = new JsonObject();
+        jo.addProperty("firstName", p.getFirstName());
+        jo.addProperty("lastName", p.getLastName());
+        jo.addProperty("email", p.getEmail());
+        System.out.println("the json-string: " + p.toJson());
 
+    }
+    
+    public static Person findPersonByPhoneNumber(){
+        Person p = null;
+        try {
+            String phone = "23982308";
+            p = m.getPersonByPhone(phone);
+            System.out.println(p.getEmail() +""+ p.getPhones().get(0).getNumber());
+        } catch (PhoneDoesNotBelongToPersonException ex) {
+            System.out.println("phonenumber does not belong to a person");
+        } catch (PersonNotFoundException ex) {
+            System.out.println("no such person found");
+        }
+        return p;
     }
 
     public static void editCityInfo() {
@@ -51,13 +82,14 @@ public class Tester {
     public static void addPerson() {
         Person ie = new Person();
     //    ie.setId(2);
-    //    ie.setEmail("michael@mydomain.com");
+        ie.setEmail("michael@mydomain.com");
         ie.setFirstName("michael");
         ie.setLastName("rulle");
-    //    Phone p = new Phone("23982308", "private cell");
-    //    p.setOwner(ie);
-    //    System.out.println(p.toString());
-    //    ie.addPhone(p);
+        Phone p = new Phone();
+        p.setNumber("23982308");
+        p.setDescription("mobile");
+        p.setOwner(ie);
+        ie.addPhone(p);
     //    Address a = new Address();
     //    a.setId(ie.getId());
     //    a.setStreet("lærkevej");

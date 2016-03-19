@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -25,20 +27,23 @@ public class Phone implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String number, description;
+//    private String number, description;
+    private String number;
+    private String description;
 
     // One person(owner) can have many phone numbers
     @ManyToOne
+//    @JoinTable(name = "ENTITY_PHONE",
+//            joinColumns = @JoinColumn(name = "phone_id",
+//                    referencedColumnName = "id"),
+//            inverseJoinColumns = @JoinColumn(name = "infoentity_id",
+//                    referencedColumnName = "id"))
+
     private InfoEntity owner;
 //    @ManyToMany(mappedBy = "phones")
 //    private List<InfoEntity> infoEntitys;
 
     public Phone() {
-    }
-
-    public Phone(String number, String description) {
-        this.number = number;
-        this.description = description;
     }
 
     public Integer getId() {
@@ -48,7 +53,7 @@ public class Phone implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
-    
+
     public String getNumber() {
         return number;
     }
@@ -71,6 +76,11 @@ public class Phone implements Serializable {
 
     public void setOwner(InfoEntity owner) {
         this.owner = owner;
-    }    
+    }
     
+    public String toJson(){
+        String result = "{\"id\" : " + id + ", \"number\" : " + number + ", \"description\" : " + description + ", \"owner\" : " + owner + "}";
+        return result;
+    }
+
 }

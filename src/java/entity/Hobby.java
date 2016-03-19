@@ -7,6 +7,7 @@ package entity;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,7 +25,8 @@ public class Hobby implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
-    @ManyToMany(mappedBy = "hobbies")
+//    @ElementCollection
+    @ManyToMany(mappedBy="hobbies")
     private List<Person> enjoyedBy;
 
     private String name, description;

@@ -8,6 +8,7 @@ package entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 
 /**
@@ -22,6 +24,7 @@ import javax.persistence.OneToMany;
  * @author RL^
  */
 @Entity
+//@MappedSuperclass
 public class InfoEntity implements Serializable  {
     private static final long serialVersionUID = 1L;
     @Id
@@ -30,11 +33,12 @@ public class InfoEntity implements Serializable  {
     private String email;
     
 //    @OneToMany(mappedBy = "owner")
-    @JoinTable
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinTable
+//    @ElementCollection
+    @OneToMany(mappedBy="owner", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     protected List<Phone> phones;
     @ManyToOne(fetch = FetchType.LAZY)
-    private Address address;
+    protected Address address;
 
     public InfoEntity (Integer id) {
         this.id = id;

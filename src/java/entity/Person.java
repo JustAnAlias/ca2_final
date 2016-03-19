@@ -8,10 +8,13 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 
 /**
@@ -29,7 +32,9 @@ public class Person extends InfoEntity  implements Serializable {
     private String lastName;
 
     // People can have multiple hobbies, and a hobby can be enjoyed by many people
-    @ManyToMany
+//    @ElementCollection
+    @ManyToMany()
+    @JoinColumn
     private List<Hobby> hobbies;
     
     public Person() {
@@ -94,6 +99,17 @@ public class Person extends InfoEntity  implements Serializable {
     @Override
     public String toString() {
         return "Person{" + "id=" + ", firstName=" + firstName + ", lastName=" + lastName + ", hobbies=" + hobbies + '}';
+    }
+    
+    public String toJson(){
+        String result = "{\"id\" : " + super.getId() + ", \"firstName\" : " + firstName + ", \"lastName\" : ";
+        result += "\"phones\" : [";
+        for (Phone p : phones){
+            result += p.toJson();
+        }
+        result += "]";
+        result += "}";
+        return result;
     }
 
     
