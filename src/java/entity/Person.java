@@ -22,7 +22,8 @@ import javax.persistence.ManyToMany;
  * @author RL^
  */
 @Entity
-public class Person extends InfoEntity  implements Serializable {
+public class Person extends InfoEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +37,7 @@ public class Person extends InfoEntity  implements Serializable {
     @ManyToMany()
     @JoinColumn
     private List<Hobby> hobbies;
-    
+
     public Person() {
         super.phones = new ArrayList();
     }
@@ -46,7 +47,7 @@ public class Person extends InfoEntity  implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
     }
-    
+
     public Person(String firstName, String lastName, String email, Phone phone) {
         super.phones = new ArrayList();
         this.firstName = firstName;
@@ -56,14 +57,14 @@ public class Person extends InfoEntity  implements Serializable {
     }
 
     public Person(Integer id, String firstName, String lastName, List<Hobby> hobbies) {
-          super(id);
+        super(id);
         //  super.phones = new ArrayList();
- 
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.hobbies = hobbies;
     }
-    
+
     public String getFirstName() {
         return firstName;
     }
@@ -87,7 +88,6 @@ public class Person extends InfoEntity  implements Serializable {
 //    public void setId(Integer id) {
 //        this.id = id;
 //    }
-
     public List<Hobby> getHobbies() {
         return hobbies;
     }
@@ -100,17 +100,18 @@ public class Person extends InfoEntity  implements Serializable {
     public String toString() {
         return "Person{" + "id=" + ", firstName=" + firstName + ", lastName=" + lastName + ", hobbies=" + hobbies + '}';
     }
-    
-    public String toJson(){
-        String result = "{\"id\" : " + super.getId() + ", \"firstName\" : " + firstName + ", \"lastName\" : ";
-        result += "\"phones\" : [";
-        for (Phone p : phones){
-            result += p.toJson();
+
+    public String toJson() {
+        String result = "{\"id\" : \"" + super.getId() + "\", \"firstName\" : \"" + firstName + "\", \"lastName\" : \"" + lastName + "\"";
+        if (!phones.isEmpty()) {
+            result += "\"phones\" : [";
+            for (Phone p : phones) {
+                result += p.toJson();
+            }
+            result += "]";
         }
-        result += "]";
         result += "}";
         return result;
     }
 
-    
 }

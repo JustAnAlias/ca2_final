@@ -79,7 +79,7 @@ public class Phone implements Serializable {
     }
     
     public String toJson(){
-        String result = "{\"id\" : " + id + ", \"number\" : " + number + ", \"description\" : " + description + ", \"owner\" : " + owner + "}";
+        String result = "{\"id\" : \"" + id + "\", \"number\" : \"" + number + "\", \"description\" : \"" + description + "\", \"owner\" : \"" + owner.getId() + "\"}";
         return result;
     }
 
