@@ -102,7 +102,7 @@ public class Person extends InfoEntity implements Serializable {
     }
 
     public String toJson() {
-        String result = "{\"id\" : \"" + super.getId() + "\", \"firstName\" : \"" + firstName + "\", \"lastName\" : \"" + lastName + "\"";
+        String result = "{\"id\" : \"" + super.getId() + "\", \"firstName\" : \"" + firstName + "\", \"lastName\" : \"" + lastName + "\", \"email\" : \"" + super.getEmail() + "\"";
         if (!phones.isEmpty()) {
             result += ", \"phones\" : [";
             result += phones.get(0).toJson();

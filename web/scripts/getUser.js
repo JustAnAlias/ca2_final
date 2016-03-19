@@ -1,8 +1,8 @@
 
 
-var addPerson = function () {
+var updatePerson = function () {
 //    var formData = JSON.stringify($("#userForm").serializeArray());
-    var person2 = {
+    var person = {
         "firstName" : document.getElementById('firstName').value,
         "lastName" : document.getElementById('lastName').value,
         "email" : document.getElementById('email').value,
@@ -14,9 +14,9 @@ var addPerson = function () {
     
 
     $.ajax({
-        type: "POST",
+        type: "PUT",
         url: "api/search/",
-        data: JSON.stringify(person2),
+        data: JSON.stringify(person),
         success: function () {},
         dataType: "json",
         contentType: "application/json"
