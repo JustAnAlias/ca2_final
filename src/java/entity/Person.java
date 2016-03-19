@@ -104,14 +104,16 @@ public class Person extends InfoEntity implements Serializable {
     public String toJson() {
         String result = "{\"id\" : \"" + super.getId() + "\", \"firstName\" : \"" + firstName + "\", \"lastName\" : \"" + lastName + "\"";
         if (!phones.isEmpty()) {
-            result += "\"phones\" : [";
-            for (Phone p : phones) {
-                result += p.toJson();
+            result += ", \"phones\" : [";
+            result += phones.get(0).toJson();
+            if (phones.size() > 1) {
+                for (int i = 1; i < phones.size(); i++) {
+                    result += ", " + phones.get(i).toJson();
+                }
             }
             result += "]";
         }
         result += "}";
         return result;
     }
-
 }
