@@ -10,6 +10,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.graph.GraphAdapterBuilder;
 import com.google.gson.stream.JsonReader;
 import entity.CityInfo;
 import entity.Hobby;
@@ -49,11 +50,17 @@ public class API {
     private UriInfo context;
 
     private Mapper mp;
-    private Gson gson;
+    private Gson gsonOut;
+    private Gson gsonIn;
 
     public API() {
         mp = new Mapper();
-        gson = new GsonBuilder().setPrettyPrinting().create();
+        gsonIn = new GsonBuilder().setPrettyPrinting().create();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        new GraphAdapterBuilder()
+                .addType(Person.class)
+                .registerOn(gsonBuilder);
+        gsonOut = gsonBuilder.setPrettyPrinting().create();
     }
 
     // Helping methods
@@ -72,10 +79,10 @@ public class API {
     @Consumes(MediaType.APPLICATION_JSON)
     public void createPerson(String personJson) {
 //        JsonObject jsonIn = new JsonParser().parse(personJson).getAsJsonObject();
-        Person person = gson.fromJson(personJson, Person.class);
+        Person person = gsonIn.fromJson(personJson, Person.class);
         System.out.println("this is the jsonString: " + personJson);
         if (!person.getPhones().isEmpty()) {
-            for (Phone p : person.getPhones()){
+            for (Phone p : person.getPhones()) {
                 p.setOwner(person);
             }
         }
@@ -106,11 +113,11 @@ public class API {
     @GET
     @Path("person/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getPersonById(@PathParam("id") Integer id) throws PersonNotFoundException, PhoneNotFoundException
-    {
-        return mp.getPersonById(id).toJson();
+    public String getPersonById(@PathParam("id") Integer id) throws PersonNotFoundException, PhoneNotFoundException {
+        return gsonOut.toJson(mp.getPersonById(id));
+//        return mp.getPersonById(id).toJson();
     }
-    
+
     @GET
     @Path("personbyphone/{number}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -118,7 +125,7 @@ public class API {
         System.out.println("the number parsed from the uri: " + number);
         System.out.println("the number is of class: " + number.getClass().getCanonicalName());
         Person p = mp.getPersonByPhone(number);
-        return gson.toJson(p);
+        return gsonOut.toJson(p);
     }
 
     @GET
@@ -137,7 +144,7 @@ public class API {
             jA.add(jO);
         }
 
-        return gson.toJson(jA);
+        return gsonOut.toJson(jA);
 
     }
 
@@ -155,15 +162,30 @@ public class API {
     }
 
     @PUT
-    @Path("person/{id}")
+    @Path("addperson/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void editPerson(String personJson) {
-        Person person = gson.fromJson(personJson, Person.class);
-        if (!person.getPhones().isEmpty()) {
-            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-            System.out.println("xxxxxxxxxxxxxxxx           " + person.getPhones().get(0) + "           xxxxxxxx");
-            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-        }
-        mp.editEntity(mp);
+    public void editPerson(String personJson) throws PersonNotFoundException {
+        mp.editPerson(gsonIn.fromJson(personJson, Person.class));
+        
+//        JsonObject jsonIn = new JsonParser().parse(personJson).getAsJsonObject();
+//        Person person = new Person();
+//        person.setEmail(jsonIn.get("email").getAsString());
+//        person.setFirstName(jsonIn.get("firstName").getAsString());
+//        person.setLastName(jsonIn.get("lastName").getAsString());
+//        List<Phone> pList = new ArrayList();
+//        JsonArray jsonPhones = jsonIn.get("phones").getAsJsonArray();
+//        if (!person.getPhones().isEmpty()) {
+//            for (int i = 0; i < jsonPhones.size(); i++) {
+//                Phone p = new Phone();
+//                JsonObject j = jsonPhones.get(i).getAsJsonObject();
+//                p.setId(j.get("id").getAsInt());
+//                p.setDescription(j.get("description").getAsString());
+//                p.setNumber(j.get("number").getAsString());
+//                p.setOwner(person);
+//                person.addPhone(p);
+//            }
+//        }
+//        System.out.println("trying to modify person...");
+//        mp.editPerson(person);
     }
 }

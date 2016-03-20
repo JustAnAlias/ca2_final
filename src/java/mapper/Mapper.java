@@ -393,9 +393,9 @@ public class Mapper {
             if (ie == null) {
                 throw new PersonNotFoundException();
             }
-            if (ie.getClass().equals(Person.class) == false) {
-                throw new PersonNotFoundException();
-            }
+//            if (ie.getClass().equals(Person.class) == false) {
+//                throw new PersonNotFoundException();
+//            }
             em.getTransaction().begin();
             em.merge(p);
             em.getTransaction().commit();
