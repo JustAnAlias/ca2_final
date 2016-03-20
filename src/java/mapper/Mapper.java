@@ -302,7 +302,7 @@ public class Mapper {
             InfoEntity result = (InfoEntity) query.getSingleResult();
             if (result == null) {
                 throw new PersonNotFoundException();
-            }
+                }
             if (result.getClass().equals(Person.class)) {
                 person = (Person) result;
                 Query phonesQuery = em.createQuery("SELECT p FROM Phone p WHERE p.owner = :owner");
