@@ -3,34 +3,36 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-document.getElementById("automagic").addEventListener("keyup", function(){
+  $( document ).ready(function() {
+      personMenu();
+  });
+document.getElementById("automagic").addEventListener("keyup", function () {
     var input = document.getElementById('automagic').value;
-    if (input.length > 1){
+    if (input.length > 1) {
         $.ajax({
-           data: input,
-           dataType: 'json',
-           type: 'get',
-           url: '/api/search/',
-           success: function(result, status, xhr){
+            data: input,
+            dataType: 'json',
+            type: 'get',
+            url: '/api/search/',
+            success: function (result, status, xhr) {
                 console.log(result);
-           }
-           
+            }
+
         });
     }
-    
+
 });
 
 var addCompany = function () {
 //    var formData = JSON.stringify($("#userForm").serializeArray());
     var company = {
-        "companyName" : document.getElementById('companyName').value,
-        "cvr" : document.getElementById('cvr').value,
-        "description" : document.getElementById('description').value,
-        "numEmployees" : document.getElementById('numEmployees').value,
-        "marketValue" : document.getElementById('marketValue').value
-        };
-    
+        "companyName": document.getElementById('companyName').value,
+        "cvr": document.getElementById('cvr').value,
+        "description": document.getElementById('description').value,
+        "numEmployees": document.getElementById('numEmployees').value,
+        "marketValue": document.getElementById('marketValue').value
+    };
+
 
     $.ajax({
         type: "POST",
@@ -45,15 +47,15 @@ var addCompany = function () {
 var addPerson = function () {
 //    var formData = JSON.stringify($("#userForm").serializeArray());
     var person2 = {
-        "firstName" : document.getElementById('firstName').value,
-        "lastName" : document.getElementById('lastName').value,
-        "email" : document.getElementById('email').value,
-        "phones" : [{
-            "number" : document.getElementById('phoneNumber').value,
-            "description" : document.getElementById('phoneDescription').value
-        }]
-        };
-    
+        "firstName": document.getElementById('firstName').value,
+        "lastName": document.getElementById('lastName').value,
+        "email": document.getElementById('email').value,
+        "phones": [{
+                "number": document.getElementById('phoneNumber').value,
+                "description": document.getElementById('phoneDescription').value
+            }]
+    };
+
 
     $.ajax({
         type: "POST",
@@ -65,18 +67,35 @@ var addPerson = function () {
     });
 };
 
+var personMenu = function () {
+    $.getJSON('api/search/person/all', function (data) {
+        for (var i = 0; i < data.length; i++) {
+            $('#personmenu').append('<a href="" onclick="selectedPerson('+ data[i].id +')">' + data[i].id + ': '+ data[i].firstName + '</a><br>');
+            console.log(data[i].firstName + " : " + data[i].lastName);
+        }
+    });
+};
+
+var selectedPerson = function () {
+parvalue = id;
+    $.getJSON("api/search/person/" + parvalue, function (data) {
+        $('#firstName').val(data.firstName);
+        $('#lastName').val(data.lastName);
+    });
+};
+
 var updatePerson = function () {
 //    var formData = JSON.stringify($("#userForm").serializeArray());
     var person = {
-        "firstName" : document.getElementById('firstName').value,
-        "lastName" : document.getElementById('lastName').value,
-        "email" : document.getElementById('email').value,
-        "phones" : [{
-            "number" : document.getElementById('phoneNumber').value,
-            "description" : document.getElementById('phoneDescription').value
-        }]
-        };
-  
+        "firstName": document.getElementById('editfirstName').value,
+        "lastName": document.getElementById('editlastName').value,
+        "email": document.getElementById('editemail').value,
+        "phones": [{
+                "number": document.getElementById('editphoneNumber').value,
+                "description": document.getElementById('editphoneDescription').value
+            }]
+    };
+
     $.ajax({
         type: "PUT",
         url: "api/search/",
@@ -91,8 +110,8 @@ var updatePerson = function () {
 //    document.getElementById("automagic").value = "Hello World";
 //});
 
-var ajaxCall = function(input){
-    
+var ajaxCall = function (input) {
+
 };
 
 //var query = function(data){
