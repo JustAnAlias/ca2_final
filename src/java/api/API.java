@@ -141,6 +141,7 @@ public class API {
             JsonObject jO = new JsonObject();
             jO.addProperty("firstName", per.getFirstName());
             jO.addProperty("lastName", per.getLastName());
+            jO.addProperty("id", per.getId());
             jA.add(jO);
         }
 

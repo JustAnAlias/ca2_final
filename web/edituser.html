@@ -41,15 +41,20 @@
         <script src="scripts/jquery-1.6.2.js"></script>
         <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
         <script type="text/javascript">
-            $(function () {
-                $('input').floatlabel({labelEndTop: 0});
-            });
         </script>
         <script type="text/javascript">
-//<![CDATA[ 
+
+    
+    //<![CDATA[ 
  $(window).load(function(){ 
-//var json = $.getJSON('api/search/person/1');
-$.getJSON("api/search/person/1", function (data) {
+$(function () {
+    $('input').floatlabel({labelEndTop: 0});
+});
+var parvalue = decodeURIComponent(window.location.search.match(/(\?|&)userid\=([^&]*)/)[2]);
+console.log("Value below")
+console.log(parvalue);
+        //var json = $.getJSON('api/search/person/1');
+$.getJSON("api/search/person/" + parvalue, function (data) {
     $('#firstName').val(data.firstName);
     $('#lastName').val(data.lastName);
     });
@@ -58,15 +63,14 @@ $.getJSON("api/search/person/1", function (data) {
 // "lastName": "Jack", 
 // "email": "Description" 
 // }; 
- for(key in json) 
- { 
- if(json.hasOwnProperty(key)) 
- $('input[name='+key+']').val(json[key]); 
- } 
- });//]]>  
- 
- 
-populate('#userForm', data);
+// for(key in json) 
+// { 
+// if(json.hasOwnProperty(key)) 
+// $('input[name='+key+']').val(json[key]); 
+// } 
+ });//]]>   
+//populate('#userForm', data);
+
 
         </script>
 
@@ -86,7 +90,7 @@ populate('#userForm', data);
                                 <div class="row">
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group">
-                                            <input type="text" name="firstName" id="firstName" class="form-control input-sm floatlabel" placeholder="First Name" value="data.firstName">
+                                            <input type="text" name="firstName" id="firstName" class="form-control input-sm floatlabel" placeholder="First Name">
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
