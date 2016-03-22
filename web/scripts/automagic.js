@@ -70,17 +70,21 @@ var addPerson = function () {
 var personMenu = function () {
     $.getJSON('api/search/person/all', function (data) {
         for (var i = 0; i < data.length; i++) {
-            $('#personmenu').append('<a href="" onclick="selectedPerson('+ data[i].id +')">' + data[i].id + ': '+ data[i].firstName + '</a><br>');
+            $('#personmenu').append('<button id="selectedPerson" onclick="return selectedPerson('+data[i].id+')">' + data[i].id + ': '+ data[i].firstName + '</button><br>');
             console.log(data[i].firstName + " : " + data[i].lastName);
         }
     });
 };
 
-var selectedPerson = function () {
-parvalue = id;
-    $.getJSON("api/search/person/" + parvalue, function (data) {
-        $('#firstName').val(data.firstName);
-        $('#lastName').val(data.lastName);
+function selectedPerson(id) {
+//parvalue = id;
+    $.getJSON("api/search/person/"+id, function (editdata) {
+        
+        console.log("ID: "+id+" chosen");
+        console.log("First"+editdata.firstName);
+        console.log("last"+editdata.lastName);
+        $('#editfirstName').val(editdata.firstName);
+        $('#editlastName').val(editdata.lastName);
     });
 };
 

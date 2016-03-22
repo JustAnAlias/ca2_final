@@ -114,8 +114,8 @@ public class API {
     @Path("person/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public String getPersonById(@PathParam("id") Integer id) throws PersonNotFoundException, PhoneNotFoundException {
-        return gsonOut.toJson(mp.getPersonById(id));
-//        return mp.getPersonById(id).toJson();
+//        return gsonOut.toJson(mp.getPersonById(id));
+        return mp.getPersonById(id).toJson();
     }
 
     @GET
