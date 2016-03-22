@@ -161,6 +161,22 @@ public class API {
 //        String json = mp.getCityInfo(Integer.parseInt(id)).toString();
         return Response.status(Response.Status.OK).entity(json).build();
     }
+    
+    @GET
+    @Path("personbypart/{partial}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getEntitySuggestions(@PathParam("partial") String partial) throws PersonNotFoundException, PhoneDoesNotBelongToPersonException {
+        System.out.println("the number parsed from the uri: " + partial);
+        System.out.println("the number is of class: " + partial.getClass().getCanonicalName());
+        List<InfoEntity> results = mp.getEntitiesByPartial(partial);
+        String result = "";
+//        for (int i = 0; i < results.size(); i++) {
+//            result += gsonOut.toJson(results.get(i));
+//        }
+//        return result;
+        return gsonOut.toJson(results);
+    }
+    
 
     @PUT
     @Path("addperson/{id}")

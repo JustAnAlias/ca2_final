@@ -20,7 +20,9 @@ import exceptions.PhoneDoesNotBelongToCompanyException;
 import exceptions.PhoneDoesNotBelongToPersonException;
 import exceptions.PhoneNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -215,6 +217,25 @@ public class Mapper {
             em.close();
         }
         return infoEntity;
+    }
+    
+        
+        public List<InfoEntity> getEntitiesByPartial(String partial) {
+        
+        List<InfoEntity> entities = new ArrayList();
+        em = getEntityManager();
+        String part = partial + "%";
+        try {
+            Query queryPersons = em.createQuery("SELECT p FROM Person p WHERE p.firstName LIKE :part OR p.lastName LIKE :part", InfoEntity.class);
+            Query queryCompanies = em.createQuery("SELECT c FROM Company c WHERE c.name LIKE :part", InfoEntity.class); 
+            queryPersons.setParameter("part", part);
+            queryCompanies.setParameter("part", part);
+            entities.addAll(queryPersons.getResultList());
+            entities.addAll(queryCompanies.getResultList());
+        } finally {
+            em.close();
+        }
+        return entities;
     }
 
     public InfoEntity addInfoEntity(InfoEntity infoEntity) {
