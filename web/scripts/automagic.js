@@ -10,12 +10,19 @@ document.getElementById("automagic").addEventListener("keyup", function () {
     var input = document.getElementById('automagic').value;
     if (input.length > 1) {
         $.ajax({
-            data: input,
-            dataType: 'json',
+//            data: input,
+//            dataType: 'json',
             type: 'get',
-            url: '/api/search/',
+            url: 'api/search/personbypart/' + input,
             success: function (result, status, xhr) {
-                console.log(result);
+                document.getElementById('searchresults').innerHTML = "";
+                var stuff = result;
+                for (var i = 0; i < stuff.length; i++) {
+                    console.log("result number " + i + " is: " + " : " + stuff[i].name);
+                    $('#searchresults').append('<button id="' + stuff[i].id + '" onclick="return selectedPerson('+stuff[i].id+')">' + stuff[i].name + '   ' + stuff[i].id + '</button>');
+                    
+                }
+//                console.log(result);
             }
 
         });

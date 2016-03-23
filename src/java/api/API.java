@@ -9,11 +9,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.graph.GraphAdapterBuilder;
-import com.google.gson.stream.JsonReader;
 import entity.CityInfo;
-import entity.Hobby;
+import entity.Company;
 import entity.InfoEntity;
 import entity.Person;
 
@@ -22,13 +20,12 @@ import exceptions.CityNotFoundException;
 import exceptions.PersonNotFoundException;
 import exceptions.PhoneDoesNotBelongToPersonException;
 import exceptions.PhoneNotFoundException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import static javax.ws.rs.HttpMethod.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -166,15 +163,38 @@ public class API {
     @Path("personbypart/{partial}")
     @Produces(MediaType.APPLICATION_JSON)
     public String getEntitySuggestions(@PathParam("partial") String partial) throws PersonNotFoundException, PhoneDoesNotBelongToPersonException {
-        System.out.println("the number parsed from the uri: " + partial);
-        System.out.println("the number is of class: " + partial.getClass().getCanonicalName());
+        System.out.println("the input parsed from the uri: " + partial);
+        System.out.println("the input is of class: " + partial.getClass().getCanonicalName());
         List<InfoEntity> results = mp.getEntitiesByPartial(partial);
         String result = "";
 //        for (int i = 0; i < results.size(); i++) {
 //            result += gsonOut.toJson(results.get(i));
 //        }
 //        return result;
-        return gsonOut.toJson(results);
+        JsonArray jA = new JsonArray();
+        
+        for (InfoEntity ie : results) {
+            JsonObject jO = new JsonObject();
+            jO.addProperty("id", ie.getId());
+            try{
+                Person p = (Person) ie;
+                jO.addProperty("name", p.getFirstName() + " " + p.getLastName());
+            }
+            catch(Exception e){
+                Company c = (Company) ie;
+                jO.addProperty("name", c.getName());
+        }
+            if (!jA.contains(jO)){
+                jA.add(jO);
+            }
+            
+        }
+
+        return gsonOut.toJson(jA);
+        
+        
+        
+//        return gsonOut.toJson(results);
     }
     
 
