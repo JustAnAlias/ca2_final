@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+    </head>
+
+    <body>
+
+        <div ng-app="myApp" ng-controller="myCtrl">
+
+            First Name: <input type="text" ng-model="firstName"><br>
+            Last Name: <input type="text" ng-model="lastName"><br>
+            <br>
+            Full Name: {{getFullName()}}
+            
+
+        </div>
+		<br>
+        <div ng-app="myNewApp" ng-controller="getAllUsers">
+            {{allUsers}}
+            <!--<p ng-repeat="u in allUsers">{{u}}</p>-->
+        </div>
+
+        <script src="scripts/jquery-1.6.2.js" type="text/javascript"></script>
+        <script src="scripts/test.js" type="text/javascript"></script>
+    </body>
+</html>
