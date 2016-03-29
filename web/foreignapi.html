@@ -13,12 +13,12 @@
             <!-- Default panel contents -->
             <div class="panel-heading">All Users</div>
             <div class="panel-body">
-                <p>(click someone)</p>
+                <p>Type here to filter: <input type="text" ng-model="namefilter"></p>
             </div>
 
             <!-- Table -->
             <table class="table">
-                <tr ng-repeat="user in allUsers">
+                <tr ng-repeat="user in allUsers | filter: namefilter">
                     <td>{{user.id}}</td>
                     <td><a ng-href="api/search/person/{{user.id}}">{{user.firstName}} {{user.lastName}}</td>
 
@@ -30,17 +30,3 @@
         <script src="scripts/test.js" type="text/javascript"></script>
     </body>
 </html>
-
-<!--
-        <div ng-app="myApp" ng-controller="myCtrl">
-            First Name: <input type="text" ng-model="firstName"><br>
-            Last Name: <input type="text" ng-model="lastName"><br>
-            <br>
-            <table class="table">
-                <tr ng-repeat="user in allUsers">
-                    <td>{{user.id}}</td>
-                    <td><a ng-href="api/search/person/{{user.id}}">{{user.firstName}} {{user.lastName}}</td>
-                </tr>
-            </table>
-        </div>
--->
