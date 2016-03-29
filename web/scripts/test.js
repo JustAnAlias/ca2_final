@@ -1,19 +1,27 @@
 var app = angular.module('myApp', []);
-app.controller('myCtrl', function($scope) {
-    $scope.firstName= "John";
-    $scope.lastName= "Doe";
+app.controller('myCtrl', function($scope, $http) {
+    
+    $scope.firstName = "John";
+    $scope.lastName = "Doe";
+    console.log('1yay');
+    $scope.allUsers = null;
+    $http.get('api/search/person/all')
+        .success(function(data) {
+            $scope.allUsers=data;
+                    console.log(data);
+        })
+        .error(function(data,status,error,config){
+            $scope.allUsers = {firstName:"Error",lastName:"Could not load json data"};
+        });
     $scope.getFullName = function(){
       return $scope.firstName + " " + $scope.lastName; 
     };
+//    $scope.getAllUsers = function(){
+//        console.log('yay');
+//    
+//    };
 });
-var newApp = angular.module('myNewApp', []);
-newApp.controller('getAllUsers', function($scope, $http) {
-    $http.get('api/search/person/1')
-    .then(function(response) {
-        $scope.allUsers = response.data;
-                console.log($scope.allUsers);
-    });
-});
+
 
 var getPeople = function(){
         var persons = [];
@@ -30,4 +38,8 @@ var getPeople = function(){
 
         });
         return persons;
+    };
+    
+    var aNewFunction = function(){
+      console.log('hello');  
     };

@@ -2,28 +2,45 @@
 <html>
     <head>
         <title></title>
-        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-
+        <!-- Latest compiled and minified CSS -->
+        <script src="scripts/jquery-1.6.2.js" type="text/javascript"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <script src="scripts/angular.min.js" type="text/javascript"></script>
     </head>
 
     <body>
+        <div class="panel panel-default" ng-app="myApp" ng-controller="myCtrl">
+            <!-- Default panel contents -->
+            <div class="panel-heading">All Users</div>
+            <div class="panel-body">
+                <p>(click someone)</p>
+            </div>
 
-        <div ng-app="myApp" ng-controller="myCtrl">
+            <!-- Table -->
+            <table class="table">
+                <tr ng-repeat="user in allUsers">
+                    <td>{{user.id}}</td>
+                    <td><a ng-href="api/search/person/{{user.id}}">{{user.firstName}} {{user.lastName}}</td>
 
-            First Name: <input type="text" ng-model="firstName"><br>
-            Last Name: <input type="text" ng-model="lastName"><br>
-            <br>
-            Full Name: {{getFullName()}}
-            
-
+                </tr>
+            </table>
         </div>
-		<br>
-        <div ng-app="myNewApp" ng-controller="getAllUsers">
-            {{allUsers}}
-            <!--<p ng-repeat="u in allUsers">{{u}}</p>-->
-        </div>
 
-        <script src="scripts/jquery-1.6.2.js" type="text/javascript"></script>
+        
         <script src="scripts/test.js" type="text/javascript"></script>
     </body>
 </html>
+
+<!--
+        <div ng-app="myApp" ng-controller="myCtrl">
+            First Name: <input type="text" ng-model="firstName"><br>
+            Last Name: <input type="text" ng-model="lastName"><br>
+            <br>
+            <table class="table">
+                <tr ng-repeat="user in allUsers">
+                    <td>{{user.id}}</td>
+                    <td><a ng-href="api/search/person/{{user.id}}">{{user.firstName}} {{user.lastName}}</td>
+                </tr>
+            </table>
+        </div>
+-->
